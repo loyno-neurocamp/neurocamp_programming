@@ -1,0 +1,250 @@
+NPP_CONSOLE on
+NPP_CONSOLE disable
+// Script to compile C++ and Java files with Notepad++ and MinGW and JavaSDK
+// Created by Scott McDermott
+// Version 1.3 (5/2017)
+
+//////////////////////
+// Easy Settings...
+
+// Change this line if you want the MSDOS style interaction. Set it to the number 1 to force DOS.
+SET DOS_PROMPT = 1
+
+// If previous is set, you have the option to force a pause at the end.
+SET PAUSEONRUN = 1
+
+// This is the path to the Java SDK installation directory. This annoyingly uses the current version
+// in the path, so it is entirely likely that you will have to update this line... It should be 
+// something simliar to what is below. This script is looking for the folder that contains
+// the files javac.exe and java.exe. This should end with a backslash!
+SET JAVA_PATH = C:\Program Files\Java\jdk1.8.0_131\bin\
+
+// This is the path to the Ruby installation directory. This annoyingly uses the current version
+// in the path, so it is entirely likely that you will have to update this line... This should end
+// with a backslash!
+SET RUBY_PATH = C:\Ruby23\bin\
+
+///////////////////
+// Instructions...
+
+// To install, just install MinGW and Notepad++ (with plugins!) and follow these steps.
+//
+// MinGW (www.mingw.org)
+// -Install the default installer with the default options (in the default location--C:\MinGW\).
+// -The default installer will do a few things and then take you to the installation manager. From
+//  here, under "Basic Setup", select "mingw32-gcc-g++"
+// -Click the menu "Installation", then "Apply Changes" and apply the pending actions.
+// -Installer will take a while to download and install necessary components. Make sure to reboot
+//  when done.
+//
+// Notepad++ (notepad-plus-plus.org)
+// -Install the default installer with the default options. Don't install the 64bit version!
+// -Run the plugin manager ("Plugins", "Plugin Manager", "Show Plugin Manager"). Find, check, and
+//  install "NppExec" plugin. Restart Notepad++ if necessary. It might take two tries to get it
+//  installed.
+// -Under "Settings", "Preferences", "Multi-Instance", select "Always in multi-instance mode"
+// -Hit F6 to bring up the "Execute" dialog. Copy this entire file into the window. Hit the 
+//  "Save..." button and call it something like "CPP Compile". Click "OK" to try to compile the
+//  current file.
+// -Under "Settings", "Shortcut Mapper", "Main menu", remove mapping for "Run" (approximately 271).
+// -Under "Settings", "Shortcut Mapper", "Plugin commands", change "Direct Execute Previous" to map
+//  to F5.
+//
+// JavaSDK (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+// -Install the Java Platform (JDK) from the link above. Just get the latest version of the JKD and
+//  skip anything fancy like NetBeans or Server.
+// -Note where it installs. Java, annoyingly, uses the current version number in the path. It might
+//  be necessary to update the JAVA_PATH setting above to reflect this!
+//
+// OpenGL and GLUT (http://www.transmissionzero.co.uk/software/freeglut-devel/)
+// -Grab the latest version of FreeGLUT for MinGW from the link above and extract the files to your
+//  computer. Make sure to get the version for MinGW!
+// -Go into the subdirectories of that archive and find three folders: "bin", "include", and "lib".  
+//  Each of these contains files that need to be copied to the correct location for your program 
+//  to compile and run. Just use the 32-bit versions (ignore any x64 files or subfolders).
+// -Copy the file "freeglut.dll" from bin to the MinGW/bin directory (by default, this should 
+//  be something like "C:\MinGW\bin").
+// -Copy the four files in the folder "GL" under include to the MinGW/include/GL directory (by 
+//  default, this should be "C:\MinGW\include\GL").
+// -Copy the two "a" ("libfreeglut.a" and "libfreeglut_static.a") files from lib to the MinGW/lib 
+//  directory (by default, this should be "C:\MinGW\lib").
+// -Finally, be sure to include the libraries for GLUT by uncommenting the GPP_LIBS setting below.
+//
+// Ruby (https://rubyinstaller.org/)
+// -Download and install (defaults) the latest version of ruby for windows from the above link.
+// -Note where it installs. Ruby, annoyingly, uses the current version number in the path. It might
+//  be necessary to update the RUBY_PATH setting above to reflect this!
+//
+//
+// This script is for compiling source code using MinGW (www.mingw.org) and Notepad++
+// (notepad-plus-plus.org), Developed by Scott McDermott (smcdermo@loyno.edu) for use in and out of
+// labs (original version: 1/2017).
+// Based on http://daleswanson.blogspot.com/2012/07/how-to-compile-c-code-in-notepad-with.html
+//
+// This script tries to compile and outputs to the console if successful. It also creates, runs,
+// and deletes the executable file in the current directory. If compiler error occurs, the script
+// recompiles and displays the output.
+//
+// Compile options for g++:
+// -o <filename>: specifies the output filename
+// -Wall shows all warning messages
+// -O3 specifies the highest optimization level
+// -g3 specifies the debugging information level, level 3 with extra information
+// -fmessage-length=0 specifies the formatted error message length, 0 for no line wrapping
+// -march=native specifies compile and optimize to native processor
+
+//////////////////////////
+// Compiler Settings...
+
+// It is probably best to leave the stuff below this line alone...
+//
+IF $(EXT_PART) = .java GOTO JAVASETTINGS
+
+IF $(EXT_PART) = .rb GOTO RUBYSETTINGS
+
+IF $(EXT_PART) != .cpp GOTO EXITSCRIPT
+
+
+//////////////////////////////////////////////////////////////////////
+// Settings for Compiling and Running C++ Files
+
+// Compile only this source file or compile all cpp files in the directory. Note, by default 
+// this is all cpp files in the directory!!! Comment out only one line. The default is to 
+// compile all files in the current directory.
+SET COMPILE_FILENAME = *.cpp
+//SET COMPILE_FILENAME = $(FILE_NAME)
+
+// Change this line ONLY if you installed MinGW in a directory other than the default. This should
+// end with a backslash!
+SET GPP_PATH = C:\MinGW\bin\
+
+// Add any extra (.cpp) files to compile. Leave this blank if only one file is being used
+SET GPP_EXTRA_FILES = 
+
+// Options for the compilers. Best to keep as is. See below for descriptions.
+SET GPP_OPTIONS = -O3 -g3 -Wall -fmessage-length=0 -march=native
+
+// Extra libraires to include. Mainly OpenGL. Comment out if GLUT is not installed!
+SET GPP_LIBS = -lglu32 -lopengl32 -lfreeglut 
+
+// Set the command to call (let's not change this, okay?).
+SET COMPILE_COMMAND = "$(GPP_PATH)g++" $(COMPILE_FILENAME) $(GPP_EXTRA_FILES) -o $(NAME_PART) $(GPP_LIBS) $(GPP_OPTIONS)
+
+// Set the command to run the program (leave it alone, yes?).
+SET RUN_COMMAND = "$(NAME_PART)"
+
+// Command to delete any residual files...
+SET CLEANUP_COMMAND = del "$(NAME_PART).exe"
+
+GOTO START_COMPILING
+
+
+
+//////////////////////////////////////////////////////////////////////
+// Settings for Compiling and Running Java Files
+
+:JAVASETTINGS
+
+// Compile all java files in the directory. You can set it to only the current file, but why?
+SET COMPILE_FILENAME = *.java
+//SET COMPILE_FILENAME = $(FILE_NAME)
+
+// Set the compile command to call (let's not change this, okay?)
+SET COMPILE_COMMAND = "$(JAVA_PATH)javac" $(COMPILE_FILENAME)
+
+// Set the command to run the program (leave it alone, yes?).
+SET RUN_COMMAND = "$(JAVA_PATH)java" -Xmx128M -Xms16M  $(NAME_PART)
+
+// Reset this to only run in colsole for Java.
+SET DOS_PROMPT = 0
+
+// Command to delete any residual files... By default, don't do it, so compile is quicker next time.
+//SET CLEANUP_COMMAND = del "*.class"
+
+GOTO START_COMPILING
+
+
+//////////////////////////////////////////////////////////////////////
+// Settings for Compiling and Running Ruby Scripts
+
+:RUBYSETTINGS
+
+// Parse the current script only
+SET COMPILE_FILENAME =  $(FILE_NAME)
+
+// Set the command to run the program. In Ruby, this is the same as the compile command.
+SET RUN_COMMAND = "$(RUBY_PATH)ruby" $(COMPILE_FILENAME)
+
+// Reset this to only run in colsole for Ruby.
+SET DOS_PROMPT = 0
+
+// Since we skip compiling!
+NPP_CONSOLE on
+CLS
+NPP_CONSOLE disable
+NPP_SAVE
+cd "$(CURRENT_DIRECTORY)"
+
+GOTO RUNEXECUTABLE
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//                 SERIOUSLY, DO NOT MAKE ANY CHANGES BELOW THIS LINE...         //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+:START_COMPILING
+NPP_CONSOLE on
+CLS
+NPP_CONSOLE disable
+NPP_SAVE
+cd "$(CURRENT_DIRECTORY)"
+env_set PATH = $(GPP_PATH);$(SYS.PATH)
+
+NPP_CONSOLE disable
+echo Compiling... file $(COMPILE_FILENAME)
+$(COMPILE_COMMAND)
+NPP_CONSOLE disable
+
+IF $(EXITCODE) == 0 GOTO RUNEXECUTABLE
+GOTO DEBUGCODE
+
+:RUNEXECUTABLE
+NPP_CONSOLE enable
+echo Running file $(RUN_COMMAND)
+NPP_CONSOLE disable
+IF $(DOS_PROMPT) == 1 GOTO DOS
+
+// Run in console
+NPP_CONSOLE enable
+cmd /C @echo. && $(RUN_COMMAND) && @echo.
+NPP_CONSOLE disable
+cmd /C $(CLEANUP_COMMAND)
+GOTO EXITSCRIPT
+
+// Run in DOS
+:DOS
+NPP_CONSOLE disable
+if $(PAUSEONRUN) == 1 GOTO WITHPAUSE
+NPP_RUN cmd /C $(RUN_COMMAND) && $(CLEANUP_COMMAND)
+GOTO EXITSCRIPT
+:WITHPAUSE
+NPP_RUN cmd /C $(RUN_COMMAND) && pause && $(CLEANUP_COMMAND)
+GOTO EXITSCRIPT
+
+:DEBUGCODE
+NPP_CONSOLE enable
+echo Compiling... file $(COMPILE_FILENAME)
+$(COMPILE_COMMAND)
+echo
+echo *** ERROR Compiling $(COMPILE_FILENAME)!!
+NPP_CONSOLE on
+GOTO EXITSCRIPT
+
+:EXITSCRIPT
+NPP_CONSOLE enable
+NPP_CONSOLE on
