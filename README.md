@@ -2,7 +2,7 @@
 
 ## Overall Approach
 
-Find a neuroscience related dummy dataset and structure CS concept presentation around exploring that data.
+Find a neuroscience related dataset and structure CS concept presentation around exploring that data. More on the dataset is in the [dataset README](/data/README.md).
 
 Use a low barrier-to-entry scripting language (Ruby, Python, etc.).
 
