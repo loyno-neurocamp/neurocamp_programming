@@ -28,7 +28,10 @@ puts filedata
 # file, identified by the block using the name we put within the bars after
 # the `do` keyword. In our case, we've used the name `row` to identify each row
 # within the block.
+# To access individual parts of a `row`, we can use the .field function
+# on the row with the header of the column we're looking for. To save typing,
+# we'll use a short-hand for the .field function: `["column_header"]`
 CSV.foreach(datafile, headers: true) do |row|
-  puts "Printing row..."
-  puts row
+  puts "Printing Subject ID and OSPAN Group..."
+  puts row["Subject"], row["OSPAN_Group"]
 end
