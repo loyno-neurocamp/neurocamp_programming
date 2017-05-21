@@ -19,3 +19,16 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 # the contents of that variable to the screen
 filedata = CSV.read(datafile, headers: true)
 puts filedata
+
+# Reading the data into a string of text is great, but the value assigned to
+# `filedata` doesn't help us that much. It's probably better for us to use
+# something that lets us look at each row of the data file. For that, we need
+# to use an iterator. Here, we use the `foreach` iterator defined in the `CSV`
+# module, which lets us define a block of code to apply to each row of the
+# file, identified by the block using the name we put within the bars after
+# the `do` keyword. In our case, we've used the name `row` to identify each row
+# within the block.
+CSV.foreach(datafile, headers: true) do |row|
+  puts "Printing row..."
+  puts row
+end
