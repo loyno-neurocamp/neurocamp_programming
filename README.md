@@ -13,13 +13,14 @@ Cover basic use of the scripting language, and get a file loaded into memory.
 1. Create and run simple script. (Hello World, with print to console.)
 2. Variables and variable access.
 3. I/O & load data from file.
-4. What functions are (we just used one).
+4. What functions and modules are (we just used one of each).
 
 ## Session 2: 2 PM - 5 PM
 
 Cover basic programming constructs, and perform basic processing of the file data.
 
 1. Loops and iteration.
+2. Row field access (or, `Dictionary` entry access by key).
 2. Conditionals.
 3. Math (change in measurement from A to B, percentage).
 4. Formatted output to screen.
