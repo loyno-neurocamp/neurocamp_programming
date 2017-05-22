@@ -21,6 +21,6 @@ Cover basic programming constructs, and perform basic processing of the file dat
 
 1. Loops and iteration.
 2. Row field access (or, `Dictionary` entry access by key).
-3. Conditionals.
+3. Conditionals, and template strings for simple output formatting.
 4. Math (change in measurement from A to B, percentage).
 5. Formatted output to screen.
