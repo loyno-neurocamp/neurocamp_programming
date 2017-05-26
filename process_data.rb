@@ -17,8 +17,11 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 
 # We're saving that data to another variable called `filedata`, then printing
 # the contents of that variable to the screen
-filedata = CSV.read(datafile, headers: true)
-puts filedata
+
+# We don't need this cluttering the output at this point, so we'll comment
+# these lines out
+# filedata = CSV.read(datafile, headers: true)
+# puts filedata
 
 # Reading the data into a string of text is great, but the value assigned to
 # `filedata` doesn't help us that much. It's probably better for us to use
@@ -56,13 +59,26 @@ puts filedata
 # numeric data types.  Here, we're computing two new columns: the difference
 # between the distracter scores, and the percent difference between the
 # distracter scores (using the hard task as the base).
+# Finally, we've added some formatting to print this data in tabular format.
+# We've done this using the format command/function used both on the
+# header line, and within the foreach loop for every row we print.
+# Note that we can also repeat a string ("-", in this case) by multiplying
+# it by a number.  For our string, we add up the length of each field, and
+# add the amount of space the dividers take (5 spaces each times 3 dividers).
 puts "Distracter score differences for subjects with OSPAN_Group 'High'"
-puts "Subject,OSPAN_Group,Distracter_difference,Distracter_perc_diff"
+puts ""
+puts format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
+        {subj: "Subject",
+         ospan: "OSPAN Group",
+         diff: "Distracter Difference",
+         perc: "Distracter % Difference"})
+puts "-" * (7 + 11 + 21 + 23 + 15)
 CSV.foreach(datafile, {headers: true, converters: :all}) do |row|
   if (row["OSPAN_Group"] == "High")
     distracter_difference = row["Distracter_hard"] - row["Distracter_easy"]
     distracter_perc_diff = 100 * distracter_difference / row["Distracter_hard"]
-    puts "#{row["Subject"]}, #{row["OSPAN_Score"]}, " +
-         "#{distracter_difference}, #{distracter_perc_diff}"
+    puts format("%<subj>7d  |  %<ospan>11d  |  %<diff> 21.2f  |  %<perc> 21.4f %%",
+         {subj: row["Subject"], ospan: row["OSPAN_Score"],
+          diff: distracter_difference, perc: distracter_perc_diff})
   end
 end
