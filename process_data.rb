@@ -50,6 +50,12 @@ puts filedata
 # we write a normal string (anything between double quotes), but add in
 # replacement tags `#{}`. Anything between the curly braces in a replacement
 # tag will be evaluated and it's value will replace the tag in the string.
+# We have also added some computations on the data.  In order to do this,
+# note that we've added the CSV option "converters: :all", which tells the
+# CSV module to convert values that it finds that look like numbers into
+# numeric data types.  Here, we're computing two new columns: the difference
+# between the distracter scores, and the percent difference between the
+# distracter scores (using the hard task as the base).
 puts "Distracter score differences for subjects with OSPAN_Group 'High'"
 puts "Subject,OSPAN_Group,Distracter_difference,Distracter_perc_diff"
 CSV.foreach(datafile, {headers: true, converters: :all}) do |row|
