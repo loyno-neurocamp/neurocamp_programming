@@ -44,6 +44,28 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 #   puts row["Subject"], row["OSPAN_Group"]
 # end
 
+def format_row(subject, score, difference, percent)
+  format("%<subj>7d  |  %<ospan>11d  |  %<diff> 21.2f  |  %<perc> 21.4f %%",
+       {subj: subject, ospan: score, diff: difference, perc: percent})
+end
+
+def calculate_difference(hard, easy)
+  hard - easy
+end
+
+def calculate_percent_difference(hard, easy)
+  100 * calculate_difference(hard, easy) / hard
+end
+
+def format_table_header(title, subject, score, difference, percent)
+  output = title + "\n\n"
+  col_headers = format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
+          {subj: subject, ospan: score, diff: difference, perc: percent})
+  output = output + col_headers + "\n"
+  output = output + ("-" * col_headers.length)
+  output
+end
+
 # In some cases, we may want to operate on only some rows. For example, in this
 # dataset, we may want to print data for only those `Subject`s whose
 # `OSPAN_Group` is `High`. To do this, we use a conditional statement.
@@ -65,20 +87,28 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 # Note that we can also repeat a string ("-", in this case) by multiplying
 # it by a number.  For our string, we add up the length of each field, and
 # add the amount of space the dividers take (5 spaces each times 3 dividers).
-puts "Distracter score differences for subjects with OSPAN_Group 'High'"
-puts ""
-puts format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
-        {subj: "Subject",
-         ospan: "OSPAN Score",
-         diff: "Distracter Difference",
-         perc: "Distracter % Difference"})
-puts "-" * (7 + 11 + 21 + 23 + 15)
+# puts "Distracter score differences for subjects with OSPAN_Group 'High'"
+# puts ""
+# puts format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
+#         {subj: "Subject",
+#          ospan: "OSPAN Score",
+#          diff: "Distracter Difference",
+#          perc: "Distracter % Difference"})
+# puts "-" * (7 + 11 + 21 + 23 + 15)
+puts format_table_header(
+  "Distracter score differences for subjects with OSPAN_Group 'High'",
+  "Subject",
+  "OSPAN Score",
+  "Distracter Difference",
+  "Distracter % Difference"
+)
 CSV.foreach(datafile, {headers: true, converters: :all}) do |row|
   if (row["OSPAN_Group"] == "High")
-    distracter_difference = row["Distracter_hard"] - row["Distracter_easy"]
-    distracter_perc_diff = 100 * distracter_difference / row["Distracter_hard"]
-    puts format("%<subj>7d  |  %<ospan>11d  |  %<diff> 21.2f  |  %<perc> 21.4f %%",
-         {subj: row["Subject"], ospan: row["OSPAN_Score"],
-          diff: distracter_difference, perc: distracter_perc_diff})
+    distracter_difference = calculate_difference(row["Distracter_hard"],
+                                                 row["Distracter_easy"])
+    distracter_perc_diff = calculate_percent_difference(row["Distracter_hard"],
+                                                        row["Distracter_easy"])
+    puts format_row(row["Subject"], row["OSPAN_Score"], distracter_difference,
+                    distracter_perc_diff)
   end
 end
