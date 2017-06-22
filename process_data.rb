@@ -44,6 +44,33 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 #   puts row["Subject"], row["OSPAN_Group"]
 # end
 
+
+# Now, we'll reorganize some of our code so that it's easier to understand.
+# We'll do this using functions, which take a piece of the processing code,
+# and give it a name.  We can also name the data we use in that processing
+# code, so that we can pass the data into the function.
+def format_header(subj, ospan, diff, perc)
+  format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
+          {subj: subj, ospan: ospan, diff: diff, perc: perc})
+end
+
+def format_data_row(subj, ospan, diff, perc)
+  format("%<subj>7d  |  %<ospan>11d  |  %<diff> 21.2f  |  %<perc> 21.4f %%",
+          {subj: subj, ospan: ospan, diff: diff, perc: perc})
+end
+
+def table_divider(char, length)
+  char * length
+end
+
+def distracter_difference(hard, easy)
+  hard - easy
+end
+
+def distracter_percent_difference(hard, easy)
+  100 * distracter_difference(hard, easy) / hard
+end
+
 # In some cases, we may want to operate on only some rows. For example, in this
 # dataset, we may want to print data for only those `Subject`s whose
 # `OSPAN_Group` is `High`. To do this, we use a conditional statement.
@@ -67,18 +94,15 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 # add the amount of space the dividers take (5 spaces each times 3 dividers).
 puts "Distracter score differences for subjects with OSPAN_Group 'High'"
 puts ""
-puts format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
-        {subj: "Subject",
-         ospan: "OSPAN Group",
-         diff: "Distracter Difference",
-         perc: "Distracter % Difference"})
-puts "-" * (7 + 11 + 21 + 23 + 15)
+puts format_header("Subject", "OSPAN Score", "Distracter Difference",
+                   "Distracter % Difference")
+puts table_divider("-", 7 + 11 + 21 + 23 + 15)
 CSV.foreach(datafile, {headers: true, converters: :all}) do |row|
   if (row["OSPAN_Group"] == "High")
-    distracter_difference = row["Distracter_hard"] - row["Distracter_easy"]
-    distracter_perc_diff = 100 * distracter_difference / row["Distracter_hard"]
-    puts format("%<subj>7d  |  %<ospan>11d  |  %<diff> 21.2f  |  %<perc> 21.4f %%",
-         {subj: row["Subject"], ospan: row["OSPAN_Score"],
-          diff: distracter_difference, perc: distracter_perc_diff})
+    diff = distracter_difference(row["Distracter_hard"],
+                                 row["Distracter_easy"])
+    perc = distracter_percent_difference(row["Distracter_hard"],
+                                         row["Distracter_easy"])
+    puts format_data_row(row["Subject"], row["OSPAN_Score"], diff, perc)
   end
 end
