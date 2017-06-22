@@ -46,7 +46,7 @@ end
 # We can fix that using template strings. To create a template string,
 # we write a normal string (anything between double quotes), but add in
 # replacement tags `#{}`. Anything between the curly braces in a replacement
-# tag will be evaluated and it's value will replace the tag in the string.
+# tag will be evaluated and its value will replace the tag in the string.
 puts "Data for subjects with OSPAN_Group 'High'"
 CSV.foreach(datafile, {headers: true, converters: :all}) do |row|
   if (row["OSPAN_Group"] == "High")
