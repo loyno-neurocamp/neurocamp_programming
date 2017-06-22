@@ -52,7 +52,7 @@ require('csv') # This loads the `CSV` module into memory as `CSV`
 # We can fix that using template strings. To create a template string,
 # we write a normal string (anything between double quotes), but add in
 # replacement tags `#{}`. Anything between the curly braces in a replacement
-# tag will be evaluated and it's value will replace the tag in the string.
+# tag will be evaluated and its value will replace the tag in the string.
 # We have also added some computations on the data.  In order to do this,
 # note that we've added the CSV option "converters: :all", which tells the
 # CSV module to convert values that it finds that look like numbers into
@@ -69,7 +69,7 @@ puts "Distracter score differences for subjects with OSPAN_Group 'High'"
 puts ""
 puts format("%<subj>7s  |  %<ospan>11s  |  %<diff>21s  |  %<perc>23s",
         {subj: "Subject",
-         ospan: "OSPAN Group",
+         ospan: "OSPAN Score",
          diff: "Distracter Difference",
          perc: "Distracter % Difference"})
 puts "-" * (7 + 11 + 21 + 23 + 15)
