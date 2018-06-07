@@ -36,10 +36,10 @@ def center_title(table_title, table_width)
   "#{left}#{table_title}#{right}"
 end
 def format_field(fname, t, l, d, suffix)
-	"%<#{fname}>#{l}#{"." if t == 'f'}#{d if t == 'f'}#{t}#{suffix}"
+  "%<#{fname}>#{l}#{"." if t == 'f'}#{d if t == 'f'}#{t}#{suffix}"
 end
 def format_field_header(fname, l, h)
-	"%<#{fname}>#{l+h}s"
+  "%<#{fname}>#{l+h}s"
 end
 def format_table_divider(char, table_width)
   char * table_width
@@ -56,48 +56,48 @@ def distracter_percent_difference(hard, easy)
 end
 
 def compute_stats(row)
-	id = row["Subject"]
-	group = row["OSPAN_Group"]
-	easy = row["Distracter_easy"]
-	hard = row["Distracter_hard"]
-	{
-		subj: id,
-		ospan: group,
-		avg: distracter_average(hard, easy),
-		diff: distracter_difference(hard, easy),
-		perc: distracter_percent_difference(hard, easy)
-	}
+  id = row["Subject"]
+  group = row["OSPAN_Group"]
+  easy = row["Distracter_easy"]
+  hard = row["Distracter_hard"]
+  {
+    subj: id,
+    ospan: group,
+    avg: distracter_average(hard, easy),
+    diff: distracter_difference(hard, easy),
+    perc: distracter_percent_difference(hard, easy)
+  }
 end
 
 def print_table_header(table_title, table_headers, fmt)
-	l = fmt[:l]
-	f = fmt[:f]
-	h = fmt[:h]
-	separator = fmt[:separator]
-	sep = separator.length
-	
+  l = fmt[:l]
+  f = fmt[:f]
+  h = fmt[:h]
+  separator = fmt[:separator]
+  sep = separator.length
+  
   header_format = (0..l.length-1).map { |i| format_field_header(f[i], l[i], h[i]) }.join(separator)
   table_width = l.reduce(0, :+) + h.reduce(0, :+) + sep * (l.length - 1)
-	dashes = format_table_divider("-", table_width)
-	
+  dashes = format_table_divider("-", table_width)
+  
   puts ""
   puts center_title(table_title, table_width)
-	puts ""
-	puts format(header_format, table_headers)
-	puts dashes
+  puts ""
+  puts format(header_format, table_headers)
+  puts dashes
 end
 
 def print_table_row(row, fmt)
-	f = fmt[:f]
-	t = fmt[:t]
-	l = fmt[:l]
+  f = fmt[:f]
+  t = fmt[:t]
+  l = fmt[:l]
   d = fmt[:d]
   suffix = fmt[:suffix]
-	separator = fmt[:separator]
-	
-	data_format = (0..l.length-1).map { |i| format_field(f[i], t[i], l[i], d[i], suffix[i]) }.join(separator)
-	data_values = compute_stats(row)
-	puts format(data_format, data_values)
+  separator = fmt[:separator]
+  
+  data_format = (0..l.length-1).map { |i| format_field(f[i], t[i], l[i], d[i], suffix[i]) }.join(separator)
+  data_values = compute_stats(row)
+  puts format(data_format, data_values)
 end
 
 # In some cases, we may want to operate on only some rows. For example, in this
@@ -124,23 +124,23 @@ end
 # add the amount of space the separators take (3 spaces each times 4 separators).
 table_title = "Distracter EEG response characteristics"
 table_headers = {
-	subj: "Subject",
-	ospan: "OSPAN Group",
-	avg: "Dist. Avg.",
-	diff: "Dist. Diff.",
-	perc: "Dist. % Diff."
+  subj: "Subject",
+  ospan: "OSPAN Group",
+  avg: "Dist. Avg.",
+  diff: "Dist. Diff.",
+  perc: "Dist. % Diff."
 }
 format_options = {
-	f: ["subj", "ospan", "avg", "diff", "perc"],
-	t: ['d','s','f','f','f'],
-	l: [7, 11, 10, 11, 13],
-	d: [0, 0, 2, 2, 2],
+  f: ["subj", "ospan", "avg", "diff", "perc"],
+  t: ['d','s','f','f','f'],
+  l: [7, 11, 10, 11, 13],
+  d: [0, 0, 2, 2, 2],
   h: [0, 0, 0, 0, 2],
   suffix: ["", "", "", "", " %%"],
-	separator: " | "
+  separator: " | "
 }
 
 print_table_header(table_title, table_headers, format_options)
 CSV.foreach(datafile, {headers: true, converters: :all}) do |row|
-	print_table_row(row, format_options)
+  print_table_row(row, format_options)
 end
