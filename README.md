@@ -6,7 +6,7 @@ Find a neuroscience related dataset and structure CS concept presentation around
 
 Use a low barrier-to-entry scripting language (Ruby, Python, etc.).
 
-## Session 1: 10 AM - 1 PM
+## Session 1: 10:00 AM - 12:00 PM
 
 Cover basic use of the scripting language, and get a file loaded into memory.
 
@@ -15,12 +15,12 @@ Cover basic use of the scripting language, and get a file loaded into memory.
 3. I/O & load data from file.
 4. What functions and modules are (we just used one of each).
 
-## Session 2: 2 PM - 5 PM
+## Session 2: 1:15 PM - 3:00 PM
 
 Cover basic programming constructs, and perform basic processing of the file data.
 
 1. Loops and iteration.
 2. Row field access (or, `Dictionary` entry access by key).
-2. Conditionals, and template strings for simple output formatting.
-3. Math (change in measurement from A to B, percentage).
-4. Formatted output to screen.
+3. Conditionals, and template strings for simple output formatting.
+4. Math (change in measurement from A to B, percentage).
+5. Formatted output to screen.
