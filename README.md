@@ -19,18 +19,18 @@ Cover basic use of the scripting language, and get a file loaded into memory (on
 1. Introduce the Jupyter Notebook, and run a "Hello World!" program in a notebook.
 2. Variables and variable access.
 3. I/O & load data from file.
-4. What functions and modules are (we just used one of each).
+4. Functions and modules. (We've used a function already!)
 5. Loops and iteration.
+6. Row field access. (remember accessing values in a dictionary by key?)
 
 ## Session 2: 1:15 PM - 2:30 PM
 
 Cover some more basic programming constructs, and perform basic processing of the file data.
 
-1. Row field access (or, `Dictionary` entry access by key).
-2. Conditionals, and template strings for simple output formatting.
-3. Math (change in measurement from A to B, percentage).
-4. Write formatted output to screen.
-5. Introduce a more complex program: [implementation of a simple 2-layer neural network](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=NeuralNetwork.ipynb).
+1. Conditionals, and template strings for simple output formatting.
+2. Math (change in measurement from A to B, percentage).
+3. Write formatted output to screen.
+4. Introduce a more complex program: [implementation of a simple 2-layer neural network](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=NeuralNetwork.ipynb).
 
 ## Wrap up and review: 2:30 PM - 3:00 PM
 
