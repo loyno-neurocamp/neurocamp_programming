@@ -1,7 +1,0 @@
-name: base
-channels:
-  - anaconda-fusion
-  - defaults
-dependencies:
-  - numpy=1.16.2
-  - python=3.7.3
