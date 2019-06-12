@@ -21,7 +21,7 @@ Cover basic use of the scripting language, and get a file loaded into memory (on
 3. I/O & load data from file.
 4. Functions and modules. (We've used a function already!)
 5. Loops and iteration.
-6. Row field access. (Remember accessing values in a dictionary by key?)
+6. Row field access. (Remember accessing values in a list by position or in a dictionary by key?)
 
 ## Session 2: 1:15 PM - 2:30 PM
 
