@@ -27,10 +27,11 @@ Cover basic use of the scripting language, and get a file loaded into memory (on
 
 Cover some more basic programming constructs, and perform basic processing of the file data.
 
-1. Conditionals, and template strings for simple output formatting.
-2. Math (change in measurement from A to B, percentage).
-3. Write formatted output to screen.
-4. Introduce a more complex program: [implementation of a simple 2-layer neural network](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=NeuralNetwork.ipynb).
+1. Type conversions and template strings for output formatting.
+2. Write formatted output to screen.
+3. Math (i.e., change in measurement from A to B, percentage).
+4. Conditionals.
+5. **Bonus!** [Implementation of a simple 3-layer neural network](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=NeuralNetwork.ipynb).
 
 ## Wrap up and review: 2:30 PM - 3:00 PM
 
