@@ -14,7 +14,7 @@ Provide some motivation and an introduction to computer science and how it's con
 
 Cover basic use of the scripting language, and get a file loaded into memory (on the computer).
 
-**To get started, [open this code repository in a jupyter tab](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=index.ipynb).**
+**To get started, [open this code repository in a jupyter tab](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/master?filepath=index.ipynb).**
 
 1. Introduce the Jupyter Notebook, and run a "Hello World!" program in a notebook.
 2. Variables and variable access.
@@ -31,7 +31,7 @@ Cover some more basic programming constructs, and perform basic processing of th
 2. Write formatted output to screen.
 3. Math (i.e., change in measurement from A to B, percentage).
 4. Conditionals.
-5. **Bonus!** [Implementation of a simple 3-layer neural network](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=NeuralNetwork.ipynb).
+5. **Bonus!** [Implementation of a simple 3-layer neural network](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/master?filepath=NeuralNetwork.ipynb).
 
 ## Wrap up and review: 2:30 PM - 3:00 PM
 
