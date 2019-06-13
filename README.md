@@ -14,7 +14,7 @@ Provide some motivation and an introduction to computer science and how it's con
 
 Cover basic use of the scripting language, and get a file loaded into memory (on the computer).
 
-**To get started, [open this code repository in a jupyter tab.](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=index.ipynb).**
+**To get started, [open this code repository in a jupyter tab](https://mybinder.org/v2/gh/loyno-mathcs/neurocamp_programming/use-notebooks?filepath=index.ipynb).**
 
 1. Introduce the Jupyter Notebook, and run a "Hello World!" program in a notebook.
 2. Variables and variable access.
